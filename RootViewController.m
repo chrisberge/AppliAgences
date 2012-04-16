@@ -793,7 +793,9 @@
     //AFFICHAGE DES CRITERES CHOISIS
     
     //VILLE
-    labelVille.text = [criteres1 valueForKey:@"ville1"];
+    if ([criteres1 valueForKey:@"ville1"] != @"") {
+        labelVille.text = [criteres1 valueForKey:@"ville1"];
+    }
     
     //TYPES DE BIEN
     NSString *types = [criteres1 valueForKey:@"types"];

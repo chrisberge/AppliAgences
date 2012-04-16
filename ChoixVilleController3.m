@@ -70,8 +70,14 @@
 	//Set the title
 	//self.navigationItem.title = @"Villes";
 	
+    //TEXTE
+    UILabel *message = [[UILabel alloc] initWithFrame:CGRectMake(0, 50, 320, 50)];
+    message.text = @"Sélectionnez une ville";
+    message.textAlignment = UITextAlignmentCenter;
+    [self.view addSubview:message];
+    
     //TABLE VIEW
-    myTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 50, 320, 300) style:UITableViewStylePlain];
+    myTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 100, 320, 300) style:UITableViewStylePlain];
     myTableView.delegate = self;
     myTableView.dataSource = self;
     [myTableView setContentSize:CGSizeMake(320, 10000)];
@@ -79,10 +85,10 @@
     [self.view addSubview:myTableView];
     
     //Add the search bar
-    searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
+    /*searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
 	myTableView.tableHeaderView = searchBar;
 	searchBar.autocorrectionType = UITextAutocorrectionTypeNo;
-    searchBar.delegate = self;
+    searchBar.delegate = self;*/
 	//searchBar.tintColor = [UIColor colorWithRed:148.0/255.0 green:127.0/255.0 blue:96.0/255.0 alpha:0.0];
     //searchBar.text = chosenCity;
     
@@ -151,6 +157,7 @@
 
 - (void)dealloc {
 	[selection release];
+    //[searchBar release];
     [super dealloc];
 }
 
@@ -418,6 +425,19 @@
 	myTableView.scrollEnabled = YES;
 	
 	[myTableView reloadData];
+}
+
+- (void) buttonPushed:(id)sender
+{
+	UIButton *button = sender;
+    
+	switch (button.tag) {
+        case 0:
+            [self.navigationController popViewControllerAnimated:YES];
+            break;
+		default:
+			break;
+	}
 }
 
 @end
