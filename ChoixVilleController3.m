@@ -117,7 +117,8 @@
     
     NSPredicate *predicat;
     
-    predicat = [NSPredicate predicateWithFormat:@"code MATCHES '\\\\d{5}'"];
+    //predicat = [NSPredicate predicateWithFormat:@"code MATCHES '\\\\d{5}'"];
+    predicat = [NSPredicate predicateWithFormat:@"code MATCHES '[0-9][0-9][0-9]+'"];
     
 	[requete setPredicate:predicat];
 	
