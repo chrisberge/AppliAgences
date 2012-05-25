@@ -23,9 +23,11 @@
 				@"", @"ville1",
 				@"", @"ville2",
 				@"", @"ville3",
+                @"", @"ville4",
 				@"", @"cp1",
 				@"", @"cp2",
 				@"", @"cp3",
+                @"", @"cp4",
 				@"", @"types",
                 @"", @"nbPieces",
 				@"", @"nb_pieces_mini",
@@ -42,9 +44,11 @@
                  @"", @"ville1",
                  @"", @"ville2",
                  @"", @"ville3",
+                 @"", @"ville4",
                  @"", @"cp1",
                  @"", @"cp2",
                  @"", @"cp3",
+                 @"", @"cp4",
                  @"", @"types",
                  @"", @"nbPieces",
                  @"", @"nb_pieces_mini",
@@ -77,6 +81,8 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector: @selector(afficheListeAnnoncesReadyRoot:) name:@"afficheListeAnnoncesReadyRoot" object: nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector: @selector(rechercheSauvee:) name:@"rechercheSauvee" object: nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector: @selector(getCriteres:) name:@"getCriteres" object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector: @selector(indexPathsSelected:) name:@"indexPathsSelected" object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector: @selector(getIndexPaths:) name:@"getIndexPaths" object: nil];
     
     isConnectionErrorPrinted = NO;
     
@@ -174,9 +180,10 @@
 	[boutonVille setImage:image forState:UIControlStateNormal];
     
     labelVille = [[UILabel alloc] initWithFrame:CGRectMake(xPos + 65, yPos + 2, xSize - 92, ySize)];
-    labelVille.font = [UIFont fontWithName:@"Arial-BoldMT" size:12];
+    labelVille.font = [UIFont fontWithName:@"Arial-BoldMT" size:10];
     labelVille.textColor = [UIColor whiteColor];
     labelVille.backgroundColor = [UIColor clearColor];
+    labelVille.text = @"";
     
     [self.view addSubview:boutonVille];
     [self.view addSubview:labelVille];
@@ -335,7 +342,7 @@
             break;
         case 5:
             NSLog(@"Lancer la recherche");
-            if ([criteres1 valueForKey:@"ville1"] == @"") {
+            /*if ([criteres1 valueForKey:@"ville1"] == @"") {
                 
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Veuillez choisir au moins une ville."
                                                                 message:nil
@@ -346,7 +353,7 @@
                 [alert release];
                 
             }
-            else {
+            else {*/
                 
                 //ENVOYER LA REQUETE ET AFFICHER LES RESULTATS
                 isConnectionErrorPrinted = NO;
@@ -354,7 +361,7 @@
                 nbRequetes = 0;
                 [self makeRequest];
                 
-            }
+            //}
             break;
         case 6:
             [self.navigationController popViewControllerAnimated:YES];
@@ -436,12 +443,25 @@
 	NSMutableArray *array = [notify object];
     
     if ([array count] != 0) {
-        
-        [criteres1 setValue:[array objectAtIndex:0] forKey:@"ville1"];
-        [criteres1 setValue:[array objectAtIndex:1] forKey:@"cp1"];
+        int i=0;
+        for (NSDictionary *dict in array) {
+            NSString *cp = [NSString stringWithFormat:@"cp%d",i+1];
+            NSString *ville = [NSString stringWithFormat:@"ville%d",i+1];
+            [criteres1 setValue:[dict valueForKey:@"code"] forKey:cp];
+            [criteres1 setValue:[dict valueForKey:@"commune"] forKey:ville];
+            i++;
+        }
     
     }
 	NSLog(@"criteres1: %@",criteres1);
+}
+
+- (void) indexPathsSelected:(NSNotification *)notify {
+    indexPathsVilles = [[NSMutableArray alloc] initWithArray:[notify object] copyItems:YES];
+}
+
+- (void) getIndexPaths:(NSNotification *)notify {
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"setIndexes" object: indexPathsVilles];
 }
 
 - (void) typesSelected:(NSNotification *)notify {
@@ -793,8 +813,18 @@
     //AFFICHAGE DES CRITERES CHOISIS
     
     //VILLE
-    if ([criteres1 valueForKey:@"ville1"] != @"") {
-        labelVille.text = [criteres1 valueForKey:@"ville1"];
+    for (int i = 1; i <= 4; i++) {
+        
+        NSString *ville = [NSString stringWithFormat:@"ville%d", i];
+        
+        if ([criteres1 valueForKey:ville] != @"") {
+            if (labelVille.text == @"") {
+                labelVille.text = [NSString stringWithFormat:@"%@", [criteres1 valueForKey:ville]];
+            }
+            else{
+                labelVille.text = [labelVille.text stringByAppendingFormat:@",%@", [criteres1 valueForKey:ville]];
+            }
+        }
     }
     
     //TYPES DE BIEN
@@ -933,6 +963,7 @@
     [labelNbPiece release];
     [labelBudget release];
     [typeBien release];
+    [indexPathsVilles release];
     [super dealloc];
 }
 

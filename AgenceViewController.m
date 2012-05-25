@@ -373,7 +373,7 @@
                 [imageData release];
             }
             
-            [self.view addSubview:myOpenFlowView];
+            [self.view insertSubview:myOpenFlowView belowSubview:pvc.view];
             [[NSNotificationCenter defaultCenter] postNotificationName:@"whichViewFrom" object: @"Agence"];
             
             [pvc.view removeFromSuperview];

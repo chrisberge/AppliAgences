@@ -28,6 +28,7 @@
 	NSMutableDictionary *criteres1;
     NSMutableDictionary *criteres2;
     NSMutableDictionary *typeBien;
+    NSMutableArray *indexPathsVilles;
     BOOL isConnectionErrorPrinted;
     ASINetworkQueue *networkQueue;
     UIImageView *coche;

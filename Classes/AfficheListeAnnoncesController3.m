@@ -214,7 +214,7 @@
     
     //TABLE VIEW
     tableView1 = [[UITableView alloc] init];
-    [tableView1 setFrame:CGRectMake(0, 170, 320, 270)];
+    [tableView1 setFrame:CGRectMake(0, 170, 320, 250)];
     tableView1.delegate = self;
     tableView1.dataSource = self;
     //tableView1.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"cell.png"]];

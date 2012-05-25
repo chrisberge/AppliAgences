@@ -10,7 +10,7 @@
 
 @implementation ChoixVilleController3
 
-@synthesize selection, searching, letUserSelectRow, resultsController;
+@synthesize villes, searching, letUserSelectRow, resultsController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -45,7 +45,8 @@
     [super viewDidLoad];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector: @selector(setCriteres:) name:@"setCriteres" object: nil];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"getCriteres" object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector: @selector(setIndexes:) name:@"setIndexes" object: nil];
+    //[[NSNotificationCenter defaultCenter] postNotificationName:@"getCriteres" object: nil];
     
     //HEADER
     UIImageView *enTete = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"header.png"]];
@@ -70,19 +71,27 @@
 	//Set the title
 	//self.navigationItem.title = @"Villes";
 	
-    //TEXTE
-    UILabel *message = [[UILabel alloc] initWithFrame:CGRectMake(0, 50, 320, 50)];
-    message.text = @"Sélectionnez une ville";
-    message.textAlignment = UITextAlignmentCenter;
-    [self.view addSubview:message];
+    //TEXTE EN HAUT
+    UILabel *messageHaut = [[UILabel alloc] initWithFrame:CGRectMake(0, 50, 320, 50)];
+    messageHaut.text = @"Sélectionnez une ville";
+    messageHaut.textAlignment = UITextAlignmentCenter;
+    [self.view addSubview:messageHaut];
     
     //TABLE VIEW
-    myTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 100, 320, 300) style:UITableViewStylePlain];
+    myTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 100, 320, 251) style:UITableViewStylePlain];
     myTableView.delegate = self;
     myTableView.dataSource = self;
     [myTableView setContentSize:CGSizeMake(320, 10000)];
     //myTableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"cell.png"]];
     [self.view addSubview:myTableView];
+    
+    //TEXTE EN BAS
+    messageBas = [[UILabel alloc] initWithFrame:CGRectMake(0, 361, 320, 50)];
+    messageBas.text = @"Aucune ville sélectionnée";
+    messageBas.textAlignment = UITextAlignmentCenter;
+    messageBas.font = [UIFont fontWithName:@"Arial" size:8];
+    messageBas.numberOfLines = 0;
+    [self.view addSubview:messageBas];
     
     //Add the search bar
     /*searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
@@ -95,7 +104,8 @@
 	searching = YES;
 	letUserSelectRow = YES;
     
-    selection = [[NSMutableArray alloc] init];
+    villes = [[NSMutableArray alloc] init];
+    selectedRows = [[NSMutableArray alloc] init];
     
     //REQUETE CORE DATA
     AppliAgencesAppDelegate *appDelegate = (AppliAgencesAppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -140,6 +150,8 @@
 	
 	resultsController = fetchedResultsController;
     //[fetchedResultsController release];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"getCriteres" object: nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"getIndexPaths" object: nil];
 }
 
 
@@ -157,7 +169,8 @@
 }
 
 - (void)dealloc {
-	[selection release];
+	[villes release];
+    [selectedRows release];
     //[searchBar release];
     [super dealloc];
 }
@@ -167,8 +180,45 @@
     NSLog(@"criteres setCriteres %@",[notify object]);
     NSMutableDictionary *criteres = [notify object];
     
-    NSString *listeVilles = [criteres valueForKey:@"villes"];
-    villes = [listeVilles componentsSeparatedByString:@","];
+    NSString *cp;
+    NSString *ville;
+    
+    for (int i = 1; i <= 4; i++) {
+        cp = [NSString stringWithFormat:@"cp%d", i];
+        ville = [NSString stringWithFormat:@"ville%d", i];
+        
+        NSString *code = [criteres valueForKey:cp];
+        NSString *commune = [criteres valueForKey:ville];
+        
+        if (code != @"") {
+        
+            NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                  code, @"code",
+                                  commune, @"commune", nil];
+            [villes addObject:dict];
+        }
+    }
+    
+    NSString *text =@"";
+    
+    for (NSDictionary *dict1 in villes) {
+        if (text != @"") {
+            text = [NSString stringWithFormat:@"%@\n%@-%@", text, [dict1 valueForKey:@"commune"], [dict1 valueForKey:@"code"]];
+        }
+        else{
+            text = [NSString stringWithFormat:@"%@-%@", [dict1 valueForKey:@"commune"], [dict1 valueForKey:@"code"]];
+        }
+        
+    }
+    
+    messageBas.text = text;
+}
+
+- (void) setIndexes:(NSNotification *)notify
+{
+    for (NSIndexPath *indexPath in [notify object]) {
+        [selectedRows addObject:indexPath];
+    }
 }
 
 #pragma mark -
@@ -196,6 +246,14 @@
     NSManagedObject *info = [resultsController objectAtIndexPath:indexPath];
     cell.textLabel.text = [info valueForKey:@"commune"];
     cell.detailTextLabel.text = [info valueForKey:@"code"];
+    
+    if ([selectedRows containsObject:indexPath]) {
+		cell.accessoryType = UITableViewCellAccessoryCheckmark;
+	}
+	else {
+		cell.accessoryType = UITableViewCellAccessoryNone;
+	}
+    
     //cell.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"cell.png"]];
 }
 
@@ -272,19 +330,38 @@
 	
 	NSString *commune = [[NSString alloc] initWithFormat:@"%@",[managedObject valueForKey:@"commune"]];
 	NSString *code = [[NSString alloc] initWithFormat:@"%@",[managedObject valueForKey:@"code"]];
-	
-    [selection release];
-    selection = [[NSMutableArray alloc] init];
     
-	[selection addObject:commune];
-	[selection addObject:code];
+    NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:code, @"code", commune, @"commune", nil];
+    
+    if ([selectedRows containsObject:indexPath]) {
+		[selectedRows removeObject:indexPath];
+		[villes removeObject:dict];
+	}
+	else {
+        if ([villes count] <= 3) {
+            [selectedRows addObject:indexPath];
+            [villes addObject:dict];
+        }
+	}
+	
+	[myTableView reloadData];
+    
+    NSString *text =@"";
+    
+    for (NSDictionary *dict1 in villes) {
+        if (text != @"") {
+            text = [NSString stringWithFormat:@"%@\n%@-%@", text, [dict1 valueForKey:@"commune"], [dict1 valueForKey:@"code"]];
+        }
+        else{
+            text = [NSString stringWithFormat:@"%@-%@", [dict1 valueForKey:@"commune"], [dict1 valueForKey:@"code"]];
+        }
+        
+    }
+    
+    messageBas.text = text;
 	
 	[commune release];
 	[code release];
-	
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"citySelected" object: selection];
-    
-	[self.navigationController popViewControllerAnimated:YES];
 	
 }
 
@@ -440,6 +517,11 @@
 		default:
 			break;
 	}
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"citySelected" object: villes];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"indexPathsSelected" object: selectedRows];
 }
 
 @end

@@ -12,16 +12,17 @@
 
 @interface ChoixVilleController3 : UIViewController <NSFetchedResultsControllerDelegate, UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource>{
     UITableView *myTableView;
-    NSMutableArray *selection;
-    NSArray *villes;
+    NSMutableArray *villes;
+    NSMutableArray *selectedRows;
     NSFetchedResultsController *resultsController;
     UISearchBar *searchBar;
 	BOOL searching;
 	BOOL letUserSelectRow;
+    UILabel *messageBas;
     
 }
 
-@property (nonatomic,retain) NSMutableArray *selection;
+@property (nonatomic,retain) NSMutableArray *villes;
 @property (nonatomic,retain) NSFetchedResultsController *resultsController;
 @property (nonatomic,assign) BOOL searching;
 @property (nonatomic,assign) BOOL letUserSelectRow;

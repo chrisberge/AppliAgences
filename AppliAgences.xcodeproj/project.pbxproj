@@ -74,7 +74,6 @@
 		837E5D2413CC8CF500CA5776 /* ArrayWithIndex.m in Sources */ = {isa = PBXBuildFile; fileRef = 837E5D2313CC8CF500CA5776 /* ArrayWithIndex.m */; };
 		837E5D3013CC8F5300CA5776 /* Intervalle.m in Sources */ = {isa = PBXBuildFile; fileRef = 837E5D2F13CC8F5300CA5776 /* Intervalle.m */; };
 		837E5D4F13CC945000CA5776 /* Annonce.m in Sources */ = {isa = PBXBuildFile; fileRef = 837E5D4E13CC945000CA5776 /* Annonce.m */; };
-		837E5D5313CC947000CA5776 /* ChoixVilleController2.m in Sources */ = {isa = PBXBuildFile; fileRef = 837E5D5113CC947000CA5776 /* ChoixVilleController2.m */; };
 		837E5D5A13CCADE700CA5776 /* AfficheListeAnnoncesController2.m in Sources */ = {isa = PBXBuildFile; fileRef = 837E5D5913CCADE700CA5776 /* AfficheListeAnnoncesController2.m */; };
 		837EE97A13E0CD4A00ACF0B7 /* Ventes.xml in Resources */ = {isa = PBXBuildFile; fileRef = 837EE97913E0CD4A00ACF0B7 /* Ventes.xml */; };
 		837F2EB613EF400C0049FFEE /* AfficheAnnonceController3.m in Sources */ = {isa = PBXBuildFile; fileRef = 837F2EB513EF400C0049FFEE /* AfficheAnnonceController3.m */; };
@@ -268,8 +267,6 @@
 		837E5D2F13CC8F5300CA5776 /* Intervalle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Intervalle.m; sourceTree = "<group>"; };
 		837E5D4D13CC945000CA5776 /* Annonce.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Annonce.h; path = ../Annonce.h; sourceTree = "<group>"; };
 		837E5D4E13CC945000CA5776 /* Annonce.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Annonce.m; path = ../Annonce.m; sourceTree = "<group>"; };
-		837E5D5013CC947000CA5776 /* ChoixVilleController2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChoixVilleController2.h; sourceTree = "<group>"; };
-		837E5D5113CC947000CA5776 /* ChoixVilleController2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChoixVilleController2.m; sourceTree = "<group>"; };
 		837E5D5813CCADE700CA5776 /* AfficheListeAnnoncesController2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AfficheListeAnnoncesController2.h; path = Classes/AfficheListeAnnoncesController2.h; sourceTree = "<group>"; };
 		837E5D5913CCADE700CA5776 /* AfficheListeAnnoncesController2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AfficheListeAnnoncesController2.m; path = Classes/AfficheListeAnnoncesController2.m; sourceTree = "<group>"; };
 		837EE97913E0CD4A00ACF0B7 /* Ventes.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Ventes.xml; sourceTree = "<group>"; };
@@ -754,8 +751,6 @@
 		838150E713CF11090070C3F0 /* Selection Ville */ = {
 			isa = PBXGroup;
 			children = (
-				837E5D5013CC947000CA5776 /* ChoixVilleController2.h */,
-				837E5D5113CC947000CA5776 /* ChoixVilleController2.m */,
 				83C715B2152DDCFC00638B42 /* ChoixVilleController3.h */,
 				83C715B3152DDCFC00638B42 /* ChoixVilleController3.m */,
 			);
@@ -1194,7 +1189,6 @@
 				837E5D2413CC8CF500CA5776 /* ArrayWithIndex.m in Sources */,
 				837E5D3013CC8F5300CA5776 /* Intervalle.m in Sources */,
 				837E5D4F13CC945000CA5776 /* Annonce.m in Sources */,
-				837E5D5313CC947000CA5776 /* ChoixVilleController2.m in Sources */,
 				837E5D5A13CCADE700CA5776 /* AfficheListeAnnoncesController2.m in Sources */,
 				8382A3DB13CDC49600D74331 /* AfficheAnnonceController2.m in Sources */,
 				8381510613CF1B240070C3F0 /* ContactViewController.m in Sources */,

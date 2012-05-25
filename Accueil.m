@@ -251,7 +251,7 @@
     /*--- REQUETE COVERFLOW ---*/
     
     /*--- REQUETE VILLES ET CODES POSTAUX ---*/
-    bodyString = @"http://www.akios.fr/immobilier/smart_phone.php?part=Transact_Immo&id_agence=264&villes=YES";
+    bodyString = @"http://www.akios.fr/immobilier/smart_phone.php?part=Transact_Immo&id_agence=225&villes=YES";
     
     NSLog(@"bodyString:%@\n",bodyString);
     
