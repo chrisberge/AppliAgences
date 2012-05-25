@@ -18,10 +18,11 @@
     int scrollViewWidth;
     int scrollViewIndex;
     UINavigationBar *navBar;
+    int page;
 }
 @property (nonatomic, assign) id <DiapoController3Delegate> delegate;
 
-- (NSMutableArray *)getImages;
+- (void)getImages:(NSMutableArray *)tableau;
 
 @end
 

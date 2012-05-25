@@ -73,7 +73,7 @@
     //self.view.backgroundColor = [UIColor whiteColor];
     
     //SCROLLVIEW
-    UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 70, 320, 480)];
+    scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 70, 320, 480)];
     [scrollView setContentSize:CGSizeMake(320, 1190)];
     [scrollView setScrollEnabled:YES];
     [self.view addSubview:scrollView];
@@ -602,8 +602,15 @@
     [boutonRetour setImage:image forState:UIControlStateNormal];
     
     [self.view addSubview:boutonRetour];
+}
+
+- (void) printHUD{
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     
-    //[[NSNotificationCenter defaultCenter] postNotificationName:@"whichViewFrom" object: @"Fiche détaillée"];
+    pvc = [[ProgressViewContoller alloc] init];
+    [scrollView addSubview:pvc.view];
+    
+    [pool release];
 }
 
 - (void) afficheDiaporamaReady:(NSNotification *)notify {
@@ -611,6 +618,8 @@
 }
 
 - (void) coverFlowFicheDetaillee:(NSNotification *)notify {
+    [NSThread detachNewThreadSelector:@selector(printHUD) toTarget:self withObject:nil];
+    
 	NSNumber *num = [notify object];
     arrayWithIndex.arrayIndex = [num intValue];
     arrayWithIndex.titre = [NSString stringWithString:[lAnnonce valueForKey:@"ref"]];
@@ -781,6 +790,10 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [myOpenFlowView centerOnSelectedCover:YES];
+}
+
+- (void)viewWillDisappear:(BOOL)animated{
+    [pvc.view removeFromSuperview];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

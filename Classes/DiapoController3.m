@@ -115,7 +115,6 @@
                                       UIViewAutoresizingFlexibleLeftMargin |
                                       UIViewAutoresizingFlexibleRightMargin |
                                       UIViewAutoresizingFlexibleTopMargin);
-        //imageView.contentMode = UIViewContentModeScaleAspectFit;
         imageView.contentMode = UIViewContentModeScaleAspectFit;
         [diaporama addSubview:imageView];
         i++;
@@ -143,12 +142,6 @@
     // e.g. self.myOutlet = nil;
 }
 
-- (void)viewWillAppear:(BOOL)animated{
-    if ([UIApplication sharedApplication].networkActivityIndicatorVisible == YES) {
-        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-    }
-}
-
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
@@ -156,29 +149,32 @@
     return YES;
 }
 
-/*- (void) willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
- {
- NSLog(@"COUCOU");
- [diaporama setFrame:CGRectMake(0, 0, 460, 320)];
- UIImageView *imageView;
- 
- for (imageView in [diaporama subviews]) {
- [imageView setFrame:CGRectMake(0, 0, 460, 320)];
- }
- }*/
+- (void) willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
+    CGFloat pageWidth = 320.0;
+    
+    if(toInterfaceOrientation == UIInterfaceOrientationPortrait || toInterfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)
+    {
+        pageWidth = 480.0;
+        page = (diaporama.contentOffset.x / pageWidth);
+        
+    }
+    if(toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft || toInterfaceOrientation == UIInterfaceOrientationLandscapeRight)
+    {
+        pageWidth = 320.0;
+        page = (diaporama.contentOffset.x / pageWidth);
+        [navBar setFrame:CGRectMake(0, 0, 480, 45)];
+    }
+}
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
     UIImageView *imageView;
-    
     int i = 0;
     
-    if(fromInterfaceOrientation == UIInterfaceOrientationPortrait)
-    {
-        if (isFirstRotation == YES) {
-            NSLog(@"offset: %f",diaporama.contentOffset.x);
-            CGFloat pageWidth = 320.0;
-            [diaporama setFrame:CGRectMake(0, 0, 480, 320)];
+    if (!isFirstRotation) {
+        if(fromInterfaceOrientation == UIInterfaceOrientationPortrait || fromInterfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)
+        {
             [navBar setFrame:CGRectMake(0, 0, 480, 45)];
+            [diaporama setFrame:CGRectMake(0, 0, 480, 320)];
             diaporama.contentSize = CGSizeMake(scrollViewWidth * 480, 320);
             
             for (imageView in [diaporama subviews]) {
@@ -186,119 +182,32 @@
                 i++;
             }
             
+            CGRect frameCenter = diaporama.frame;
+            frameCenter.origin.x = frameCenter.size.width * page;
+            frameCenter.origin.y = 0;
+            [diaporama scrollRectToVisible:frameCenter animated:NO];
+        }
+        
+        if(fromInterfaceOrientation == UIInterfaceOrientationLandscapeLeft || fromInterfaceOrientation == UIInterfaceOrientationLandscapeRight)
+        {
+            [navBar setFrame:CGRectMake(0, 0, 320, 45)];
+            [diaporama setFrame:CGRectMake(0, 0, 320, 480)];
+            diaporama.contentSize = CGSizeMake(scrollViewWidth * 320, 480);
             
-            NSLog(@"pageW: %f",pageWidth);
-            
-            int page = 0;
-            if (diaporama.contentOffset.x != 0.0) {
-                page = (diaporama.contentOffset.x / pageWidth);
+            for (imageView in [diaporama subviews]) {
+                [imageView setFrame:CGRectMake(i * 320, 0, 320, 480)];
+                i++;
             }
-            
-            NSLog(@"page : %d", page);
             
             CGRect frameCenter = diaporama.frame;
             frameCenter.origin.x = frameCenter.size.width * page;
             frameCenter.origin.y = 0;
             [diaporama scrollRectToVisible:frameCenter animated:NO];
-            isFirstRotation = NO;
         }
-        /*else{
-            isFirstRotation = NO;
-        }*/
-        
     }
-    
-    if(fromInterfaceOrientation == UIInterfaceOrientationLandscapeRight)
-    {
-        NSLog(@"offset: %f",diaporama.contentOffset.x);
-        CGFloat pageWidth = 480.0;
-        [diaporama setFrame:CGRectMake(0, 0, 320, 480)];
-        [navBar setFrame:CGRectMake(0, 0, 320, 45)];
-        diaporama.contentSize = CGSizeMake(scrollViewWidth * 320, 480);
-        
-        for (imageView in [diaporama subviews]) {
-            [imageView setFrame:CGRectMake(i * 320, 0, 320, 480)];
-            i++;
-        }
-        
-        
-        NSLog(@"pageW: %f",pageWidth);
-        
-        int page = 0;
-        if (diaporama.contentOffset.x != 0.0) {
-            page = (diaporama.contentOffset.x / pageWidth);
-        }
-        
-        NSLog(@"page : %d", page);
-        
-        CGRect frameCenter = diaporama.frame;
-        frameCenter.origin.x = frameCenter.size.width * page;
-        frameCenter.origin.y = 0;
-        [diaporama scrollRectToVisible:frameCenter animated:NO];
-        
+    else{
+        isFirstRotation = NO;
     }
-    
-    
-    if(fromInterfaceOrientation == UIInterfaceOrientationLandscapeLeft)
-    {
-        NSLog(@"offset: %f",diaporama.contentOffset.x);
-        CGFloat pageWidth = 480.0;
-        [diaporama setFrame:CGRectMake(0, 0, 320, 480)];
-        [navBar setFrame:CGRectMake(0, 0, 320, 45)];
-        diaporama.contentSize = CGSizeMake(scrollViewWidth * 320, 480);
-        
-        for (imageView in [diaporama subviews]) {
-            [imageView setFrame:CGRectMake(i * 320, 0, 320, 480)];
-            i++;
-        }
-        
-        
-        NSLog(@"pageW: %f",pageWidth);
-        
-        int page = 0;
-        if (diaporama.contentOffset.x != 0.0) {
-            page = (diaporama.contentOffset.x / pageWidth);
-        }
-        
-        NSLog(@"page : %d", page);
-        
-        CGRect frameCenter = diaporama.frame;
-        frameCenter.origin.x = frameCenter.size.width * page;
-        frameCenter.origin.y = 0;
-        [diaporama scrollRectToVisible:frameCenter animated:NO];
-        
-    }
-    
-    if(fromInterfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)
-    {
-        NSLog(@"offset: %f",diaporama.contentOffset.x);
-        CGFloat pageWidth = 320.0;
-        [diaporama setFrame:CGRectMake(0, 0, 480, 320)];
-        [navBar setFrame:CGRectMake(0, 0, 480, 45)];
-        diaporama.contentSize = CGSizeMake(scrollViewWidth * 480, 320);
-        
-        for (imageView in [diaporama subviews]) {
-            [imageView setFrame:CGRectMake(i * 480, 0, 480, 320)];
-            i++;
-        }
-        
-        
-        NSLog(@"pageW: %f",pageWidth);
-        
-        int page = 0;
-        if (diaporama.contentOffset.x != 0.0) {
-            page = (diaporama.contentOffset.x / pageWidth);
-        }
-        
-        NSLog(@"page : %d", page);
-        
-        CGRect frameCenter = diaporama.frame;
-        frameCenter.origin.x = frameCenter.size.width * page;
-        frameCenter.origin.y = 0;
-        [diaporama scrollRectToVisible:frameCenter animated:NO];
-        
-    }
-    
 }
 
 - (void) afficheDiaporama:(NSNotification *)notify {
@@ -333,15 +242,5 @@
 {
     [self.delegate diapoControllerDidFinish:self];
 }
-/*
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    CGFloat pageWidth = scrollView.frame.size.width;
-    int page = floor((scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
-    
-    CGRect frameCenter = diaporama.frame;
-    frameCenter.origin.x = frameCenter.size.width * page;
-    frameCenter.origin.y = 0;
-    [diaporama scrollRectToVisible:frameCenter animated:NO];
-}
-*/
+
 @end

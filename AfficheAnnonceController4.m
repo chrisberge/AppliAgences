@@ -70,7 +70,7 @@
     //self.view.backgroundColor = [UIColor whiteColor];
     
     //SCROLLVIEW
-    UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 70, 320, 480)];
+    scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 70, 320, 480)];
     [scrollView setContentSize:CGSizeMake(320, 1250)];
     [scrollView setScrollEnabled:YES];
     [self.view addSubview:scrollView];
@@ -595,12 +595,19 @@
     UIButton *envoyez = [UIButton buttonWithType:UIButtonTypeCustom];
     [envoyez setFrame:CGRectMake(195, 1020, 95, 65)];
     [envoyez setImage:[UIImage imageNamed:@"envoyez-a-un-ami.png"] forState:UIControlStateNormal];
-    [envoyez addTarget:self action:@selector(buttonEnvoyez:) 
+    [envoyez addTarget:self action:@selector(buttonEnvoyez:)
       forControlEvents:UIControlEventTouchUpInside];
     [scrollView addSubview:envoyez];
     /*--- CONTACT ---*/
+}
+
+- (void) printHUD{
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     
-    //[[NSNotificationCenter defaultCenter] postNotificationName:@"whichViewFrom" object: @"Fiche détaillée"];
+    pvc = [[ProgressViewContoller alloc] init];
+    [scrollView addSubview:pvc.view];
+    
+    [pool release];
 }
 
 - (void) afficheDiaporamaReady:(NSNotification *)notify {
@@ -608,6 +615,8 @@
 }
 
 - (void) coverFlowFicheDetaillee:(NSNotification *)notify {
+    [NSThread detachNewThreadSelector:@selector(printHUD) toTarget:self withObject:nil];
+    
 	NSNumber *num = [notify object];
     arrayWithIndex.arrayIndex = [num intValue];
     arrayWithIndex.titre = [NSString stringWithString:[lAnnonce valueForKey:@"ref"]];
@@ -726,12 +735,11 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated{
-    if ([UIApplication sharedApplication].networkActivityIndicatorVisible == YES) {
-        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-    }
-    
     [myOpenFlowView centerOnSelectedCover:YES];
-    //[[NSNotificationCenter defaultCenter] postNotificationName:@"whichViewFrom" object: @"Fiche détaillée"];
+}
+
+- (void)viewWillDisappear:(BOOL)animated{
+    [pvc.view removeFromSuperview];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
