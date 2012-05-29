@@ -88,6 +88,7 @@
     
     //NOM
     UILabel *labelNom = [[UILabel alloc] initWithFrame:CGRectMake(30, 0, 100, 30)];
+    labelNom.backgroundColor = [UIColor clearColor];
     labelNom.text = @"NOM:";
     [scrollView addSubview:labelNom];
     [labelNom release];
@@ -100,6 +101,7 @@
     
     //PRENOM
     UILabel *labelPrenom = [[UILabel alloc] initWithFrame:CGRectMake(30, 60, 100, 30)];
+    labelPrenom.backgroundColor = [UIColor clearColor];
     labelPrenom.text = @"PRENOM:";
     [scrollView addSubview:labelPrenom];
     [labelPrenom release];
@@ -111,6 +113,7 @@
     
     //TELEPHONE
     UILabel *labelTelephone = [[UILabel alloc] initWithFrame:CGRectMake(30, 120, 150, 30)];
+    labelTelephone.backgroundColor = [UIColor clearColor];
     labelTelephone.text = @"TELEPHONE:";
     [scrollView addSubview:labelTelephone];
     [labelTelephone release];
@@ -123,6 +126,7 @@
     
     //EMAIL
     UILabel *labelEmail = [[UILabel alloc] initWithFrame:CGRectMake(30, 180, 150, 30)];
+    labelEmail.backgroundColor = [UIColor clearColor];
     labelEmail.text = @"EMAIL:";
     [scrollView addSubview:labelEmail];
     [labelEmail release];
@@ -135,6 +139,7 @@
     
     //TYPE DE BIEN
     UILabel *labelTypeBien = [[UILabel alloc] initWithFrame:CGRectMake(30, 240, 150, 30)];
+    labelTypeBien.backgroundColor = [UIColor clearColor];
     labelTypeBien.text = @"TYPE DE BIEN:";
     [scrollView addSubview:labelTypeBien];
     [labelTypeBien release];
@@ -146,6 +151,7 @@
     
     //SURFACE
     UILabel *labelSurface = [[UILabel alloc] initWithFrame:CGRectMake(30, 300, 150, 30)];
+    labelSurface.backgroundColor = [UIColor clearColor];
     labelSurface.text = @"SURFACE:";
     [scrollView addSubview:labelSurface];
     [labelSurface release];
@@ -158,6 +164,7 @@
     
     //NB DE PIECES
     UILabel *labelnbPieces = [[UILabel alloc] initWithFrame:CGRectMake(30, 360, 200, 30)];
+    labelnbPieces.backgroundColor = [UIColor clearColor];
     labelnbPieces.text = @"NOMBRE DE PIECES:";
     [scrollView addSubview:labelnbPieces];
     [labelnbPieces release];
@@ -170,6 +177,7 @@
     
     //PRIX
     UILabel *labelPrix = [[UILabel alloc] initWithFrame:CGRectMake(30, 420, 150, 30)];
+    labelPrix.backgroundColor = [UIColor clearColor];
     labelPrix.text = @"PRIX:";
     [scrollView addSubview:labelPrix];
     [labelPrix release];
@@ -183,6 +191,7 @@
     
     //ADRESSE
     UILabel *labelAdresse = [[UILabel alloc] initWithFrame:CGRectMake(30, 480, 150, 30)];
+    labelAdresse.backgroundColor = [UIColor clearColor];
     labelAdresse.text = @"ADRESSE:";
     [scrollView addSubview:labelAdresse];
     [labelAdresse release];
@@ -194,6 +203,7 @@
     
     //CODE POSTAL
     UILabel *labelCodePostal = [[UILabel alloc] initWithFrame:CGRectMake(30, 540, 150, 30)];
+    labelCodePostal.backgroundColor = [UIColor clearColor];
     labelCodePostal.text = @"CODE POSTAL:";
     [scrollView addSubview:labelCodePostal];
     [labelCodePostal release];
@@ -206,6 +216,7 @@
     
     //VILLE
     UILabel *labelVille = [[UILabel alloc] initWithFrame:CGRectMake(30, 600, 150, 30)];
+    labelVille.backgroundColor = [UIColor clearColor];
     labelVille.text = @"VILLE:";
     [scrollView addSubview:labelVille];
     [labelVille release];
