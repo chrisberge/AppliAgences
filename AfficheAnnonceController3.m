@@ -103,14 +103,17 @@
     UILabel *labelPrix = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 170, 20)];
     labelPrix.font = [UIFont fontWithName:@"Arial-BoldMT" size:12];
     labelPrix.textAlignment = UITextAlignmentLeft;
+    labelPrix.backgroundColor = [UIColor clearColor];
     
     UILabel *labelVille = [[UILabel alloc] initWithFrame:CGRectMake(10, 25, 320, 20)];
     labelVille.font = [UIFont fontWithName:@"Arial" size:10];
     labelVille.textAlignment = UITextAlignmentLeft;
+    labelVille.backgroundColor = [UIColor clearColor];
     
     UILabel *labelSurface = [[UILabel alloc] initWithFrame:CGRectMake(10, 40, 320, 20)];
     labelSurface.font = [UIFont fontWithName:@"Arial" size:10];
     labelSurface.textAlignment = UITextAlignmentLeft;
+    labelSurface.backgroundColor = [UIColor clearColor];
     
     NSString *isS = @"";
     NSString *nb_pieces = [lAnnonce valueForKey:@"nb_pieces"];
@@ -221,16 +224,20 @@
     UILabel *labelAscenseur = [[UILabel alloc] initWithFrame:CGRectMake(10, 407, 200, 20)];
     UILabel *labelChauffage = [[UILabel alloc] initWithFrame:CGRectMake(10, 427, 200, 20)];
     
+    labelPrix2.backgroundColor = [UIColor clearColor];
     labelPrix2.font = [UIFont fontWithName:@"Arial" size:12];
     labelPrix2.text = [NSString stringWithFormat:@"- Prix: %@€", prix];
     
+    labelSurface2.backgroundColor = [UIColor clearColor];
     labelSurface2.font = [UIFont fontWithName:@"Arial" size:12];
     labelSurface2.text = [NSString stringWithFormat:@"- Surface: %@m²", [lAnnonce valueForKey:@"surface"]];
     
+    labelEtage.backgroundColor = [UIColor clearColor];
     labelEtage.font = [UIFont fontWithName:@"Arial" size:12];
     labelEtage.text = [NSString stringWithFormat:@"- Etage: %@", [lAnnonce valueForKey:@"etage"]];
     //labelEtage.text = @"- Etage: 3";
     
+    labelAscenseur.backgroundColor = [UIColor clearColor];
     labelAscenseur.font = [UIFont fontWithName:@"Arial" size:12];
     labelAscenseur.text = [NSString stringWithFormat:@"- Ascenseur: %@", [lAnnonce valueForKey:@"ascenseur"]];
     //labelAscenseur.text = @"- Ascenseur: Oui";
@@ -285,6 +292,7 @@
                                    @"individuel électrique mixte",@"10624",
                                    nil];
                                    
+    labelChauffage.backgroundColor = [UIColor clearColor];
     labelChauffage.font = [UIFont fontWithName:@"Arial" size:12];
     NSString *chauffage = [lAnnonce valueForKey:@"chauffage"];
     chauffage = [chauffage stringByReplacingOccurrencesOfString:@"\n" withString:@""];
@@ -315,6 +323,7 @@
     UILabel *bilanCe = [[UILabel alloc] initWithFrame:CGRectMake(10, 450, 250, 30)];
     bilanCe.font = [UIFont fontWithName:@"Arial-BoldMT" size:12];
     bilanCe.text = @"Bilan consommation énergie";
+    bilanCe.backgroundColor = [UIColor clearColor];
     [scrollView addSubview:bilanCe];
     
     NSString *lettreCE = [lAnnonce valueForKey:@"bilan_ce"];
@@ -433,6 +442,7 @@
     UILabel *bilanGes = [[UILabel alloc] initWithFrame:CGRectMake(10, nextY, 250, 30)];
     bilanGes.font = [UIFont fontWithName:@"Arial-BoldMT" size:12];
     bilanGes.text = @"Bilan émission gaz à effet de serre";
+    bilanGes.backgroundColor = [UIColor clearColor];
     [scrollView addSubview:bilanGes];
     
     NSString *lettreGES = [lAnnonce valueForKey:@"bilan_ges"];
@@ -858,7 +868,7 @@
 {
     // Return YES for supported orientations
     //return (interfaceOrientation == UIInterfaceOrientationPortrait);
-    return YES;
+    return NO;
 }
 
 @end

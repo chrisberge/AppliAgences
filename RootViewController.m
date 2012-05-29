@@ -628,7 +628,7 @@
             NSDictionary *userInfo;
             UIAlertView *alert;
             
-            if (nbRequetes < 2) {
+            if (nbRequetes < 2 && ([criteres1 valueForKey:@"cp1"] != @"")) {
                 userInfo = [NSDictionary 
                                           dictionaryWithObject:@"Votre recherche a été élargie à tout le département."
                                           forKey:NSLocalizedDescriptionKey];
