@@ -752,11 +752,17 @@
     fullPath = [[NSBundle mainBundle] pathForResource:@"telephone-agence" ofType:@"txt"];
     texte = [NSString stringWithContentsOfFile:fullPath encoding:NSUTF8StringEncoding error:&error];
     
-    texte = [texte stringByReplacingOccurrencesOfString:@"." withString:@""];
-    texte = [texte substringFromIndex:1];
-    
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:
-                                                [NSString stringWithFormat:@"tel://+33%@",texte]]];
+    if ([texte rangeOfString:@"+"].length > 0) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:texte]];
+    }
+    else{
+        
+        texte = [texte stringByReplacingOccurrencesOfString:@"." withString:@""];
+        texte = [texte substringFromIndex:1];
+        
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:
+                                                    [NSString stringWithFormat:@"tel://+33%@",texte]]];
+    }
 }
 
 - (void) buttonEnvoyez:(id)sender

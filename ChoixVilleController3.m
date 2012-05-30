@@ -73,7 +73,7 @@
 	
     //TEXTE EN HAUT
     UILabel *messageHaut = [[UILabel alloc] initWithFrame:CGRectMake(0, 50, 320, 50)];
-    messageHaut.text = @"Sélectionnez une ville";
+    messageHaut.text = @"Sélectionnez jusqu'à 4 villes";
     messageHaut.textAlignment = UITextAlignmentCenter;
     [self.view addSubview:messageHaut];
     

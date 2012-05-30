@@ -340,7 +340,7 @@
     [scrollView addSubview:bilanCe];
     
     NSString *lettreCE = [lAnnonce valueForKey:@"bilan_ce"];
-    lettreCE = @"B";
+    //lettreCE = @"B";
     lettreCE = [lettreCE stringByReplacingOccurrencesOfString:@"\n" withString:@""];
     NSLog(@"LETTRE CE: \"%@\"",lettreCE);
     
@@ -460,7 +460,7 @@
     [scrollView addSubview:bilanGes];
     
     NSString *lettreGES = [lAnnonce valueForKey:@"bilan_ges"];
-    lettreGES = @"D";
+    //lettreGES = @"D";
     lettreGES = [lettreGES stringByReplacingOccurrencesOfString:@"\n" withString:@""];
     
     nextY = nextY + 30;
@@ -752,11 +752,17 @@
     fullPath = [[NSBundle mainBundle] pathForResource:@"telephone-agence" ofType:@"txt"];
     texte = [NSString stringWithContentsOfFile:fullPath encoding:NSUTF8StringEncoding error:&error];
     
-    texte = [texte stringByReplacingOccurrencesOfString:@"." withString:@""];
-    texte = [texte substringFromIndex:1];
+    if ([texte rangeOfString:@"+"].length > 0) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:texte]];
+    }
+    else{
     
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:
-                                                [NSString stringWithFormat:@"tel://+33%@",texte]]];
+        texte = [texte stringByReplacingOccurrencesOfString:@"." withString:@""];
+        texte = [texte substringFromIndex:1];
+    
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:
+                                                    [NSString stringWithFormat:@"tel://+33%@",texte]]];
+    }
 }
 
 - (void) buttonEnvoyez:(id)sender

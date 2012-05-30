@@ -715,7 +715,7 @@
             
             [self sauvegardeRecherches];
             
-            [criteres1 setDictionary:tempDictionary];
+            //[criteres1 setDictionary:tempDictionary];
             NSString *transaction = [NSString stringWithFormat:@"%d", coche.tag - 100];
             [criteres1 setValue:transaction forKey:@"transaction"];
             
@@ -813,11 +813,12 @@
     //AFFICHAGE DES CRITERES CHOISIS
     
     //VILLE
+    labelVille.text = @"";
     for (int i = 1; i <= 4; i++) {
         
         NSString *ville = [NSString stringWithFormat:@"ville%d", i];
         
-        if ([criteres1 valueForKey:ville] != @"") {
+        if ([criteres1 valueForKey:ville] != @"" && [criteres1 valueForKey:ville] != nil) {
             if (labelVille.text == @"") {
                 labelVille.text = [NSString stringWithFormat:@"%@", [criteres1 valueForKey:ville]];
             }

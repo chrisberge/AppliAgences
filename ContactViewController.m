@@ -214,11 +214,11 @@
 - (void) buttonPushed:(id)sender
 {
 	UIButton *button = sender;
-    NSError *error = nil;
-    NSString *fullPath;
-    NSString *texte;
     
 	switch (button.tag) {
+        NSError *error = nil;
+        NSString *fullPath;
+        NSString *texte;
 		case 1:
             NSLog(@"geoloc.");
             GeolocViewController *geoLoc = [[GeolocViewController alloc] init];
@@ -229,20 +229,23 @@
 			break;
 		case 2:
             NSLog(@"tel.");
-            NSError *error = nil;
-            NSString *fullPath;
-            NSString *texte;
             
             error = nil;
             
             fullPath = [[NSBundle mainBundle] pathForResource:@"telephone-agence" ofType:@"txt"];
             texte = [NSString stringWithContentsOfFile:fullPath encoding:NSUTF8StringEncoding error:&error];
             
-            texte = [texte stringByReplacingOccurrencesOfString:@"." withString:@""];
-            texte = [texte substringFromIndex:1];
-            
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:
-                                                        [NSString stringWithFormat:@"tel://+33%@",texte]]];
+            if ([texte rangeOfString:@"+"].length > 0) {
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:texte]];
+            }
+            else{
+                
+                texte = [texte stringByReplacingOccurrencesOfString:@"." withString:@""];
+                texte = [texte substringFromIndex:1];
+                
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:
+                                                            [NSString stringWithFormat:@"tel://+33%@",texte]]];
+            }
             break;
         case 3:
             NSLog(@"email.");
